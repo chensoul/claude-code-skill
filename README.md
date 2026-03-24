@@ -1,20 +1,31 @@
 # claude-code-skill
 
-OpenClaw skill for running the local Claude Code CLI (`claude`) in headless or interactive mode.
+A general-purpose OpenClaw skill for running the local Claude Code CLI (`claude`) in headless or interactive mode.
 
-## Contents
+## Repository layout
 
-- `claude-code/` — skill source directory
-- `claude-code.skill` — packaged skill artifact
+```text
+.
+├── SKILL.md
+├── scripts/
+│   └── claude_code_run.py
+├── references/
+│   ├── doc-index.md
+│   ├── official-docs.md
+│   └── openclaw-prompts.md
+├── claude-code.skill
+└── README.md
+```
 
-## Main capabilities
+## What it does
 
 - run Claude Code from OpenClaw
-- headless `claude -p` usage
-- interactive slash-command workflows via tmux
-- plan mode / allowedTools / JSON output / continue / resume
-- OpenClaw-oriented prompt templates and Chinese quick reference
+- support headless `claude -p` execution
+- support interactive slash-command workflows through tmux
+- support plan mode, allowedTools, JSON output, continue, and resume
+- include reusable OpenClaw prompt templates and Chinese quick reference
 
-## Source
+## Notes
 
-Originally created in the OpenClaw workspace and published to this repository.
+- `claude-code.skill` is the packaged artifact
+- `SKILL.md` + `scripts/` + `references/` are the editable source files
