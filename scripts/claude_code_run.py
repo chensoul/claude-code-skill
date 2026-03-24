@@ -16,7 +16,11 @@ import sys
 import time
 from pathlib import Path
 
-DEFAULT_CLAUDE = os.environ.get("CLAUDE_CODE_BIN", "/home/chensoul/.nvm/versions/node/v25.8.0/bin/claude")
+COMMON_CLAUDE_PATHS = [
+    "/home/chensoul/.nvm/versions/node/v25.8.0/bin/claude",
+    "/usr/local/bin/claude",
+    "/opt/homebrew/bin/claude",
+]
 
 
 def which(name: str) -> str | None:
@@ -28,6 +32,22 @@ def which(name: str) -> str | None:
         except OSError:
             pass
     return None
+
+
+def resolve_default_claude() -> str:
+    env_bin = os.environ.get("CLAUDE_CODE_BIN")
+    if env_bin:
+        return env_bin
+    path_bin = which("claude")
+    if path_bin:
+        return path_bin
+    for candidate in COMMON_CLAUDE_PATHS:
+        if Path(candidate).exists():
+            return candidate
+    return "claude"
+
+
+DEFAULT_CLAUDE = resolve_default_claude()
 
 
 def looks_like_slash_commands(prompt: str | None) -> bool:
@@ -184,9 +204,10 @@ def main() -> int:
         extra = extra[1:]
     args.extra = extra
 
-    if not Path(args.claude_bin).exists():
+    chosen = Path(args.claude_bin)
+    if not chosen.exists() and which(args.claude_bin) is None:
         print(f"claude binary not found: {args.claude_bin}", file=sys.stderr)
-        print("Tip: set CLAUDE_CODE_BIN=/path/to/claude", file=sys.stderr)
+        print("Set CLAUDE_CODE_BIN=/path/to/claude or pass --claude-bin /path/to/claude", file=sys.stderr)
         return 2
 
     mode = args.mode

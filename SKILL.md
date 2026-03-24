@@ -203,5 +203,5 @@ Read these files only when needed:
 
 - The wrapper forces a PTY for headless calls because Claude Code behaves better with a terminal.
 - The wrapper auto-switches to interactive mode when the prompt contains lines beginning with `/`.
-- The wrapper defaults to the local binary path on this machine: `/home/chensoul/.nvm/versions/node/v25.8.0/bin/claude`.
+- The wrapper resolves the Claude Code binary in this order: `--claude-bin` → `CLAUDE_CODE_BIN` → `claude` in `PATH` → a few common fallback locations.
 - If you correct a repeated Claude Code mistake in a repo, tell Claude to update its `CLAUDE.md` with the lesson when appropriate.
